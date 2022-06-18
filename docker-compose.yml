@@ -1,0 +1,28 @@
+version: '3.3'
+services:
+    nginx-fpm-alpine:
+        container_name: privatebin
+        restart: always
+        ports:
+            - '8080:8080'
+        volumes:
+            - './conf.php:/srv/cfg/conf.php:ro'
+            - './privatebin-data:/srv/data'
+        image: privatebin/nginx-fpm-alpine
+        links:
+            - db
+        networks: 
+          - default
+    db:
+        image: mysql:5.7
+        restart: unless-stopped
+        environment:
+          MYSQL_ROOT_PASSWORD: rootpassword
+          MYSQL_DATABASE: privatebin
+          MYSQL_USER: privatebin
+          MYSQL_PASSWORD: abcde
+        volumes:
+          - './db:/var/lib/mysql'
+        container_name: privatebin-db
+        networks: 
+          - default
