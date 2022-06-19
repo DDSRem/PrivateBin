@@ -8,6 +8,8 @@ services:
         volumes:
             - './conf.php:/srv/cfg/conf.php:ro'
             - './privatebin-data:/srv/data'
+            - './site.conf:/etc/nginx/http.d/site.conf'
+            - './PASSWORD:/etc/PASSWORD'
         image: privatebin/nginx-fpm-alpine
         links:
             - db
@@ -26,3 +28,6 @@ services:
         container_name: privatebin-db
         networks: 
           - default
+networks:
+  default:
+    name: privatebin
